@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  color       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  ideas       Idea[]
+}
+
+model Idea {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  status      String    @default("draft") // draft, in-progress, completed, archived
+  priority    String    @default("medium") // low, medium, high
+  dueDate     DateTime?
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
+  tags        String?   // Stored as comma-separated values
+  attachments String?   // Stored as comma-separated file paths
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  notes       Note[]
+}
+
+model Note {
+  id        String   @id @default(cuid())
+  content   String
+  ideaId    String
+  idea      Idea     @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SocialAccount {
+  id          String   @id @default(cuid())
+  platform    String   // twitter, linkedin, instagram, etc.
+  username    String
+  profileUrl  String?
+  accessToken String?  // For API access
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+} 
