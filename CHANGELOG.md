@@ -6,7 +6,7 @@
 - **Full codebase rewrite**: The entire project has been rebuilt from scratch for improved structure, maintainability, and scalability.
 
 ### Added Features & Components
-- **Modern Next.js 14+ app directory structure**
+- **Next.js 14+ app directory structure**
 - **Prisma integration** for database management
 - **API routes** for:
   - Ideas (`/api/ideas`)
