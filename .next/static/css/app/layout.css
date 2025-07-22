@@ -1,9 +1,16 @@
 /*!*****************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[3]!./src/app/globals.css ***!
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[3]!./src/app/globals.css ***!
   \*****************************************************************************************************************************************************************************************************************************************************************/
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
+  /* Color Palette - Green & Purple Glassmorphism */
+  --glass-green: #4ade80;
+  --glass-green-dark: #16a34a;
+  --glass-purple: #a78bfa;
+  --glass-purple-dark: #7c3aed;
+  --glass-gradient: linear-gradient(135deg, rgba(74,222,128,0.35) 0%, rgba(139,92,246,0.35) 100%);
+  --glass-gradient-strong: linear-gradient(135deg, rgba(139,92,246,0.45) 0%, rgba(34,211,238,0.45) 100%);
   /* Color Palette - Blue to Teal Theme */
   --primary-blue: #1e40af;
   --primary-teal: #0d9488;
@@ -77,7 +84,11 @@
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-700) 25%, var(--teal-600) 75%, var(--teal-800) 100%);
+  background: #18181b;
+  background-image: url('https://external-preview.redd.it/uhq5zTcMPM3tOW_fbUz4PayDt_5pkEXdyXXoRWs3XOg.jpg?auto=webp&s=e06461124c1ccfdba7e9ece763b644ff68eeb06b');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   background-attachment: fixed;
   min-height: 100vh;
   color: var(--text-primary);
@@ -90,20 +101,19 @@ body {
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 75%, #94a3b8 100%);
 }
 
-/* Animated Background */
 body::before {
   content: '';
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
-  animation: backgroundShift 20s ease-in-out infinite;
+  width: 100vw;
+  height: 100vh;
   z-index: -1;
+  pointer-events: none;
+  /* Glassmorphism overlay: subtle blur and darken for contrast */
+  backdrop-filter: blur(16px) brightness(0.85);
+  -webkit-backdrop-filter: blur(16px) brightness(0.85);
+  background: rgba(24, 24, 27, 0.35);
 }
 
 [data-theme="light"] body::before {
@@ -120,15 +130,31 @@ body::before {
   75% { transform: translate(-5px, 10px) scale(1.03); }
 }
 
+@keyframes glassBokeh {
+  0%, 100% { filter: blur(0px) brightness(1); }
+  50% { filter: blur(6px) brightness(1.08); }
+}
+
 /* Glassmorphism Base Classes */
-.glass-card {
-  background: var(--glass-bg);
+.glass-card, .glass-effect {
+  background: var(--glass-gradient);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 8px 32px var(--glass-shadow);
-  transition: all 0.3s ease;
+  border: 1.5px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 8px 32px var(--glass-shadow), 0 1.5px 8px 0 rgba(139,92,246,0.08);
+  transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+  animation: glass-float 4s ease-in-out infinite;
+}
+
+/* Remove color on hover for interactive items */
+.glass-card:hover, .glass-effect:hover {
+  /* Remove background and border color changes on hover */
+  background: var(--glass-gradient);
+  border-color: var(--glass-border);
+  /* Keep only scale and shadow for feedback */
+  transform: translateY(-3px) scale(1.025);
+  box-shadow: 0 16px 48px rgba(139,92,246,0.18), 0 2px 12px 0 rgba(74,222,128,0.10);
 }
 
 .glass-card:hover {
@@ -189,36 +215,32 @@ body::before {
 
 /* Enhanced Button Styles with Green Gradients */
 .glass-button {
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur-light);
-  -webkit-backdrop-filter: var(--glass-blur-light);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-md);
+  background: var(--glass-gradient);
+  border: 1.5px solid var(--glass-border);
   color: var(--text-primary);
+  border-radius: var(--radius-full);
   padding: var(--space-sm) var(--space-lg);
-  font-weight: 500;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-sm);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(139,92,246,0.10);
+  transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
   position: relative;
   overflow: hidden;
 }
-
+.glass-button:active {
+  transform: scale(0.97);
+  filter: brightness(1.08);
+}
 .glass-button::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s ease;
+  left: 0; top: 0; width: 100%; height: 100%;
+  background: linear-gradient(120deg, rgba(167,139,250,0.18) 0%, rgba(74,222,128,0.12) 100%);
+  opacity: 0.7;
+  pointer-events: none;
+  transition: opacity 0.3s;
 }
-
 .glass-button:hover::before {
-  left: 100%;
+  opacity: 1;
 }
 
 .glass-button:hover {
@@ -278,15 +300,50 @@ body::before {
 
 .sidebar.collapsed {
   width: 80px;
-  padding: var(--space-lg);
+  padding: 10px;
+  box-shadow: none;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+          backdrop-filter: blur(24px) saturate(1.2);
+  border-right: 1.5px solid rgba(255,255,255,0.13);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .sidebar.collapsed .nav-item {
   justify-content: center;
-  padding: var(--space-md);
-  min-height: 48px;
+  align-items: center;
+  width: calc(100% - 8px);
+  min-width: 0;
+  max-width: 100%;
+  margin-left: 4px;
+  margin-right: 4px;
+  padding-left: 0;
+  padding-right: 0;
+  min-height: 44px;
   border-radius: var(--radius-md);
   margin-bottom: var(--space-sm);
+  box-shadow: none;
+  background: rgba(255,255,255,0.10);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+          backdrop-filter: blur(16px) saturate(1.1);
+  transition: background 0.2s;
+}
+
+.sidebar.collapsed .sidebar-icon {
+  background: rgba(255,255,255,0.18) !important;
+  box-shadow: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  filter: none;
 }
 
 .sidebar.collapsed .nav-item span {
@@ -294,17 +351,45 @@ body::before {
 }
 
 .sidebar.collapsed .nav-item:hover {
-  transform: none;
-  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.04);
+  background: rgba(255,255,255,0.18);
+  box-shadow: none;
 }
 
 .sidebar.collapsed .nav-item.active {
-  background: linear-gradient(135deg, var(--teal-500), var(--teal-600));
-  box-shadow: 0 4px 15px rgba(45, 212, 191, 0.3);
+  background: rgba(255,255,255,0.18);
+  box-shadow: none;
+}
+
+.sidebar.collapsed .sidebar-toggle-button {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  margin-right: 260px !important;
+  padding: 0;
+  background: rgba(255,255,255,0.18) !important;
+  box-shadow: none;
+  border: 1.5px solid rgba(255,255,255,0.18);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
+          backdrop-filter: blur(12px) saturate(1.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border 0.2s;
+}
+
+.sidebar.collapsed .sidebar-toggle-button:hover {
+  background: rgba(255, 255, 255, 0.28) !important;
+  box-shadow: none;
 }
 
 .sidebar.collapsed .weather-card {
-  padding: var(--space-sm);
+  padding: 8.5px;
+  font-size: 0.8rem;
+  overflow: hidden;
+  background: rgba(255,255,255,0.10);
+  border-radius: var(--radius-md);
 }
 
 .sidebar.collapsed .weather-title,
@@ -319,20 +404,23 @@ body::before {
 
 .sidebar.collapsed .weather-current {
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: 4.5px;
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+  align-items: center;
 }
 
 .sidebar.collapsed .temp-value {
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .sidebar.collapsed .temp-unit {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
 }
 
 .sidebar-header {
   text-align: center;
-  padding-bottom: var(--space-lg);
+  padding-bottom: 20px;
   border-bottom: 1px solid var(--glass-border);
 }
 
@@ -384,16 +472,14 @@ body::before {
   letter-spacing: 0.5px;
 }
 
-.nav-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--text-primary);
-  transform: translateX(4px);
-}
-
-.nav-item.active {
-  background: linear-gradient(135deg, var(--teal-500), var(--teal-600));
-  color: white;
-  box-shadow: 0 4px 15px rgba(45, 212, 191, 0.3);
+/* Remove color on hover for interactive items */
+.nav-item:hover, .nav-item.active {
+  /* Remove color changes on hover/active */
+  background: var(--glass-gradient);
+  color: inherit;
+  border-color: var(--glass-border);
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(139,92,246,0.12);
 }
 
 .nav-item i {
@@ -428,31 +514,55 @@ body::before {
   color: var(--text-primary);
 }
 
+/* Sidebar nav-item and toggle button as Apple-style glass buttons */
+.sidebar .nav-item {
+  composes: glass-apple-btn;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 500;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  text-align: left;
+  border-radius: 100px;
+  box-shadow: none;
+  transition: all .3s cubic-bezier(.37,1.32,.64,1);
+}
+.sidebar .nav-item:hover, .sidebar .nav-item.active {
+  /* Only scale and shadow, no color change */
+  background: none;
+  color: var(--text-primary);
+  transform: scale(1.07) translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,122,255,0.18);
+}
+
 .sidebar-toggle-button {
   position: absolute;
+  right: 0;
   top: 50%;
-  right: -12px;
   transform: translateY(-50%);
-  width: 24px;
-  height: 24px;
-  background: var(--glass-bg);
-  -webkit-backdrop-filter: var(--glass-blur);
-          backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  border-radius: 50%;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  color: var(--text-secondary);
-  transition: all 0.2s ease;
-  z-index: 60;
+  font-size: 1.2rem;
+  background: rgba(255,255,255,0.18) !important;
+  border: none;
+  border-radius: 100px;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0,122,255,0.35);
+  transition: all .3s cubic-bezier(.37,1.32,.64,1);
+  z-index: 100;
 }
-
 .sidebar-toggle-button:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: var(--text-primary);
-  transform: translateY(-50%) scale(1.1);
+  color: #fff;
+  transform: scale(1.07) translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,122,255,0.18);
 }
 
 /* Weather Widget */
@@ -812,6 +922,12 @@ body::before {
   color: var(--text-primary);
   margin-bottom: var(--space-sm);
   line-height: 1.4;
+}
+
+/* Remove text color changes on hover for card titles, categories, etc. */
+.card-title:hover, .card-category:hover, .card-description:hover {
+  color: inherit;
+  filter: brightness(1.05);
 }
 
 .card-badges {
@@ -1563,12 +1679,159 @@ body::before {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.5);
 } 
+
+/* Apple-style Glass Button and Card */
+.glass-apple-btn, .glass-apple-card {
+  position: relative;
+  border: none;
+  border-radius: 100px;
+  background: #007AFFcc; /* Accent, can be overridden */
+  color: #fff;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,122,255,0.35);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  transition: all .3s cubic-bezier(.37,1.32,.64,1);
+  overflow: hidden;
+  z-index: 0;
+}
+.glass-apple-card {
+  border-radius: 28px;
+  background: rgba(255,255,255,0.18);
+  color: var(--text-primary);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.20);
+  border: 1px solid rgba(255,255,255,0.26);
+  padding: 32px 24px;
+  font-size: 1rem;
+}
+.glass-apple-btn::before, .glass-apple-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.35) 0%, transparent 60%);
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  transition: background .2s;
+  z-index: 1;
+}
+.glass-apple-btn:hover, .glass-apple-card:hover { transform: scale(1.07) translateY(-2px); }
+.glass-apple-btn:active, .glass-apple-card:active { transform: scale(.96); } 
+
+/* Apple-style Glass Sidebar */
+.glass-apple-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 320px;
+  z-index: 50;
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  background: rgba(255,255,255,0.18);
+  border-right: 1px solid rgba(255,255,255,0.26);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.20);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  color: var(--text-primary);
+  transition: all .3s cubic-bezier(.37,1.32,.64,1);
+  overflow: hidden;
+}
+.glass-apple-sidebar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 28px 0 0 28px;
+  background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.35) 0%, transparent 60%);
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  transition: background .2s;
+  z-index: 1;
+}
+.glass-apple-sidebar:hover { transform: scale(1.01) translateY(-2px); }
+.glass-apple-sidebar:active { transform: scale(.98); }
+
+/* To enable pointer-tracked light reflection, add this to your sidebar element:
+   onPointerMove={e => {
+     const sidebar = e.currentTarget;
+     const rect = sidebar.getBoundingClientRect();
+     const x = ((e.clientX - rect.left) / rect.width) * 100;
+     const y = ((e.clientY - rect.top) / rect.height) * 100;
+     sidebar.style.setProperty('--x', `${x}%`);
+     sidebar.style.setProperty('--y', `${y}%`);
+   }}
+   Or, for pure CSS, you can use a static value for --x and --y, or set them via JS elsewhere.
+*/ 
+
+.collapsed-nav-item {
+  width: calc(100% - 12px) !important;
+  margin-left: 6px !important;
+  margin-right: 6px !important;
+  min-width: 0;
+  max-width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+  min-height: 44px;
+  border-radius: var(--radius-md);
+  box-shadow: none;
+  background: rgba(255,255,255,0.13);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+          backdrop-filter: blur(16px) saturate(1.1);
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} 
+
+.dark-bg {
+  background: url('https://i.redd.it/w0qg2oanfel51.png') no-repeat center center fixed !important;
+  background-size: cover !important;
+} 
+
+.glass-dark-toggle {
+  border: 1.5px solid rgba(255,255,255,0.18);
+  box-shadow: 0 4px 24px 0 rgba(80,80,120,0.18);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  transition: background 0.2s, border 0.2s;
+}
+.glass-dark-toggle:hover {
+  background: rgba(60, 60, 90, 0.45) !important;
+  box-shadow: 0 8px 32px 0 rgba(80,80,120,0.22);
+} 
+
+.sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+  gap: 10px;
+  padding-bottom: 20px;
+  width: 100%;
+}
+.dark-mode-toggle {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.1);
+  border: none;
+  cursor: pointer;
+} 
 /*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[12].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"src\\app\\layout.tsx","import":"Inter","arguments":[{"subsets":["latin"]}],"variableName":"inter"} ***!
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[13].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"src\\app\\layout.tsx","import":"Inter","arguments":[{"subsets":["latin"]}],"variableName":"inter"} ***!
   \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /* cyrillic-ext */
 @font-face {
-  font-family: '__Inter_e8ce0c';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -1577,7 +1840,7 @@ body::before {
 }
 /* cyrillic */
 @font-face {
-  font-family: '__Inter_e8ce0c';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -1586,7 +1849,7 @@ body::before {
 }
 /* greek-ext */
 @font-face {
-  font-family: '__Inter_e8ce0c';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -1595,7 +1858,7 @@ body::before {
 }
 /* greek */
 @font-face {
-  font-family: '__Inter_e8ce0c';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -1604,7 +1867,7 @@ body::before {
 }
 /* vietnamese */
 @font-face {
-  font-family: '__Inter_e8ce0c';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -1613,7 +1876,7 @@ body::before {
 }
 /* latin-ext */
 @font-face {
-  font-family: '__Inter_e8ce0c';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -1622,13 +1885,13 @@ body::before {
 }
 /* latin */
 @font-face {
-  font-family: '__Inter_e8ce0c';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
   src: url(/_next/static/media/e4af272ccee01ff0-s.p.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}@font-face {font-family: '__Inter_Fallback_e8ce0c';src: local("Arial");ascent-override: 90.20%;descent-override: 22.48%;line-gap-override: 0.00%;size-adjust: 107.40%
-}.__className_e8ce0c {font-family: '__Inter_e8ce0c', '__Inter_Fallback_e8ce0c';font-style: normal
+}@font-face {font-family: 'Inter Fallback';src: local("Arial");ascent-override: 90.44%;descent-override: 22.52%;line-gap-override: 0.00%;size-adjust: 107.12%
+}.__className_e8ce0c {font-family: 'Inter', 'Inter Fallback';font-style: normal
 }
 

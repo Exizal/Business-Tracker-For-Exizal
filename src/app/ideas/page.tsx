@@ -5,6 +5,7 @@ import { Search, Filter, Grid, List, Plus, X, Trash2, Edit, Calendar, SortAsc, S
 
 
 import { Tag, TagGroup } from '@/components/ui/Tag';
+import { GlassAppleButton, GlassAppleCard } from '@/components/ui/GlassAppleButton'
 
 interface Idea {
   id: number;
@@ -226,6 +227,7 @@ export default function IdeasPage() {
 
   return (
     <div className="ideas-page">
+      {/* Exizal & Galaxy: Our dreams, our future! */}
       {/* Search and Filter Controls */}
       <div className="search-filter-container">
         <div className="search-container">
@@ -326,9 +328,9 @@ export default function IdeasPage() {
       {/* Ideas Grid */}
       <div className={`content-grid ${viewMode === 'list' ? 'list-view' : ''}`}>
         {filteredAndSortedIdeas.map((idea) => (
-          <div
+          <GlassAppleCard
             key={idea.id}
-            className="content-card"
+            className="content-card group cursor-pointer"
             draggable
             onDragStart={(e) => handleDragStart(e, idea.id)}
             onDragOver={handleDragOver}
@@ -337,19 +339,14 @@ export default function IdeasPage() {
           >
             <div className="card-header">
               <div className="card-title-section">
-                <h3 className="card-title">{idea.title}</h3>
+                <h3 className="card-title text-transparent bg-clip-text bg-gradient-to-br from-glassGreen-400 via-glassPurple-500 to-glassGreen-600 group-hover:brightness-110 transition-all duration-200">{idea.title}</h3>
                 <div className="card-badges">
-                  <span className={`priority-badge ${getPriorityColor(idea.priority)}`}>
-                    {idea.priority}
-                  </span>
-                  <span className={`status-badge ${getStatusColor(idea.status)}`}>
-                    {idea.status}
-                  </span>
+                  <span className={`priority-badge ${getPriorityColor(idea.priority)}`}>{idea.priority}</span>
+                  <span className={`status-badge ${getStatusColor(idea.status)}`}>{idea.status}</span>
                 </div>
               </div>
-              
               <div className="card-actions">
-                <button
+                <GlassAppleButton
                   className="card-action-button"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -357,8 +354,8 @@ export default function IdeasPage() {
                   }}
                 >
                   <Edit size={16} />
-                </button>
-                <button
+                </GlassAppleButton>
+                <GlassAppleButton
                   className="card-action-button delete"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -367,129 +364,126 @@ export default function IdeasPage() {
                   }}
                 >
                   <Trash2 size={16} />
-                </button>
+                </GlassAppleButton>
               </div>
             </div>
-
             <div className="card-description-section">
-              <p className="card-description">{idea.description}</p>
+              <p className="card-description text-white/90 group-hover:text-white transition-colors duration-200">{idea.description}</p>
             </div>
-
-
-
             <div className="card-tags-section">
               <TagGroup tags={idea.tags} size="sm" />
             </div>
-
             <div className="card-footer">
               <div className="card-category-section">
-                <span className="card-category">{idea.category}</span>
+                <span className="card-category text-glassPurple-400">{idea.category}</span>
               </div>
               <div className="card-date">
                 <Calendar size={14} />
                 <span>{idea.createdAt}</span>
               </div>
             </div>
-          </div>
+          </GlassAppleCard>
         ))}
       </div>
 
       {/* Add Idea Modal */}
       {showAddModal && (
         <div className="modal-overlay active" onClick={() => setShowAddModal(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h2 className="modal-title">Add New Idea</h2>
-              <button className="modal-close" onClick={() => setShowAddModal(false)}>
-                <X size={24} />
-              </button>
-            </div>
-            
-            <div className="modal-form">
-              <div className="form-group">
-                <label className="form-label required">Title</label>
-                <input
-                  type="text"
-                  className="form-input"
-                  value={formData.title}
-                  onChange={(e) => setFormData({...formData, title: e.target.value})}
-                  placeholder="Enter idea title"
-                />
+          <div onClick={(e) => e.stopPropagation()}>
+            <GlassAppleCard className="modal-content animate-glass-float">
+              <div className="modal-header">
+                <h2 className="modal-title text-transparent bg-clip-text bg-gradient-to-br from-glassGreen-400 via-glassPurple-500 to-glassGreen-600">Add New Idea</h2>
+                <button className="modal-close" onClick={() => setShowAddModal(false)}>
+                  <X size={20} />
+                </button>
               </div>
               
-              <div className="form-group">
-                <label className="form-label required">Description</label>
-                <textarea
-                  className="form-input form-textarea"
-                  value={formData.description}
-                  onChange={(e) => setFormData({...formData, description: e.target.value})}
-                  placeholder="Describe your idea"
-                />
-              </div>
-              
-              <div className="form-row">
+              <div className="modal-form">
                 <div className="form-group">
-                  <label className="form-label required">Category</label>
-                  <select
-                    className="form-input form-select"
-                    value={formData.category}
-                    onChange={(e) => setFormData({...formData, category: e.target.value})}
-                  >
-                    <option value="">Select category</option>
-                    <option value="Analytics">Analytics</option>
-                    <option value="E-commerce">E-commerce</option>
-                    <option value="Productivity">Productivity</option>
-                    <option value="Health">Health</option>
-                    <option value="Education">Education</option>
-                  </select>
+                  <label className="form-label required">Title</label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    value={formData.title}
+                    onChange={(e) => setFormData({...formData, title: e.target.value})}
+                    placeholder="Enter idea title"
+                  />
                 </div>
                 
                 <div className="form-group">
-                  <label className="form-label required">Status</label>
+                  <label className="form-label required">Description</label>
+                  <textarea
+                    className="form-input form-textarea"
+                    value={formData.description}
+                    onChange={(e) => setFormData({...formData, description: e.target.value})}
+                    placeholder="Describe your idea"
+                  />
+                </div>
+                
+                <div className="form-row">
+                  <div className="form-group">
+                    <label className="form-label required">Category</label>
+                    <select
+                      className="form-input form-select"
+                      value={formData.category}
+                      onChange={(e) => setFormData({...formData, category: e.target.value})}
+                    >
+                      <option value="">Select category</option>
+                      <option value="Analytics">Analytics</option>
+                      <option value="E-commerce">E-commerce</option>
+                      <option value="Productivity">Productivity</option>
+                      <option value="Health">Health</option>
+                      <option value="Education">Education</option>
+                    </select>
+                  </div>
+                  
+                  <div className="form-group">
+                    <label className="form-label required">Status</label>
+                    <select
+                      className="form-input form-select"
+                      value={formData.status}
+                      onChange={(e) => setFormData({...formData, status: e.target.value})}
+                    >
+                      <option value="">Select status</option>
+                      <option value="Planning">Planning</option>
+                      <option value="In Progress">In Progress</option>
+                      <option value="Completed">Completed</option>
+                      <option value="On Hold">On Hold</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div className="form-group">
+                  <label className="form-label required">Priority</label>
                   <select
                     className="form-input form-select"
-                    value={formData.status}
-                    onChange={(e) => setFormData({...formData, status: e.target.value})}
+                    value={formData.priority}
+                    onChange={(e) => setFormData({...formData, priority: e.target.value})}
                   >
-                    <option value="">Select status</option>
-                    <option value="Planning">Planning</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Completed">Completed</option>
-                    <option value="On Hold">On Hold</option>
+                    <option value="">Select priority</option>
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                    <option value="Critical">Critical</option>
                   </select>
                 </div>
               </div>
               
-              <div className="form-group">
-                <label className="form-label required">Priority</label>
-                <select
-                  className="form-input form-select"
-                  value={formData.priority}
-                  onChange={(e) => setFormData({...formData, priority: e.target.value})}
+              <div className="modal-actions">
+                <button
+                  className="glass-button"
+                  onClick={() => setShowAddModal(false)}
                 >
-                  <option value="">Select priority</option>
-                  <option value="Low">Low</option>
-                  <option value="Medium">Medium</option>
-                  <option value="High">High</option>
-                  <option value="Critical">Critical</option>
-                </select>
+                  Cancel
+                </button>
+                <button
+                  className="glass-button primary"
+                  onClick={handleAddIdea}
+                >
+                  Add Idea
+                </button>
               </div>
-            </div>
-            
-            <div className="modal-actions">
-              <button
-                className="glass-button"
-                onClick={() => setShowAddModal(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="glass-button primary"
-                onClick={handleAddIdea}
-              >
-                Add Idea
-              </button>
-            </div>
+            </GlassAppleCard>
           </div>
         </div>
       )}
@@ -499,65 +493,67 @@ export default function IdeasPage() {
         <div className="modal-overlay active" onClick={closeDetailModal}>
           <div className="expanded-modal-container">
             {/* Main Modal Content */}
-            <div className="modal-content expanded-modal" onClick={(e) => e.stopPropagation()}>
-              <div className="modal-header">
-                <h2 className="modal-title">{selectedIdea.title}</h2>
-                <button className="modal-close" onClick={closeDetailModal}>
-                  <X size={24} />
-                </button>
-              </div>
-              
-              <div className="modal-section">
-                <h3 className="modal-section-title">Description</h3>
-                <div className="modal-section-content">
-                  {selectedIdea.description}
+            <div onClick={(e) => e.stopPropagation()}>
+              <GlassAppleCard className="modal-content expanded-modal animate-glass-float">
+                <div className="modal-header">
+                  <h2 className="modal-title text-transparent bg-clip-text bg-gradient-to-br from-glassGreen-400 via-glassPurple-500 to-glassGreen-600">{selectedIdea.title}</h2>
+                  <button className="modal-close" onClick={closeDetailModal}>
+                    <X size={20} />
+                  </button>
                 </div>
-              </div>
-              
-              <div className="modal-section">
-                <h3 className="modal-section-title">Tags</h3>
-                <div className="modal-section-content">
-                  <TagGroup tags={selectedIdea.tags} />
-                </div>
-              </div>
-              
-              <div className="modal-section">
-                <h3 className="modal-section-title">Details</h3>
-                <div className="modal-details-grid">
-                  <div className="modal-detail-item">
-                    <span className="detail-label">Category:</span>
-                    <span className="detail-value">{selectedIdea.category}</span>
-                  </div>
-                  <div className="modal-detail-item">
-                    <span className="detail-label">Status:</span>
-                    <span className="detail-value">{selectedIdea.status}</span>
-                  </div>
-                  <div className="modal-detail-item">
-                    <span className="detail-label">Priority:</span>
-                    <span className="detail-value">{selectedIdea.priority}</span>
-                  </div>
-                  <div className="modal-detail-item">
-                    <span className="detail-label">Created:</span>
-                    <span className="detail-value">{selectedIdea.createdAt}</span>
+                
+                <div className="modal-section">
+                  <h3 className="modal-section-title">Description</h3>
+                  <div className="modal-section-content">
+                    {selectedIdea.description}
                   </div>
                 </div>
-              </div>
-              
-              {/* Action Buttons */}
-              <div className="modal-actions">
-                <button
-                  className="glass-button primary"
-                  onClick={handleEditIdea}
-                >
-                  EDIT IDEA
-                </button>
-                <button
-                  className="glass-button"
-                  onClick={() => setShowComments(!showComments)}
-                >
-                  add comment
-                </button>
-              </div>
+                
+                <div className="modal-section">
+                  <h3 className="modal-section-title">Tags</h3>
+                  <div className="modal-section-content">
+                    <TagGroup tags={selectedIdea.tags} />
+                  </div>
+                </div>
+                
+                <div className="modal-section">
+                  <h3 className="modal-section-title">Details</h3>
+                  <div className="modal-details-grid">
+                    <div className="modal-detail-item">
+                      <span className="detail-label">Category:</span>
+                      <span className="detail-value">{selectedIdea.category}</span>
+                    </div>
+                    <div className="modal-detail-item">
+                      <span className="detail-label">Status:</span>
+                      <span className="detail-value">{selectedIdea.status}</span>
+                    </div>
+                    <div className="modal-detail-item">
+                      <span className="detail-label">Priority:</span>
+                      <span className="detail-value">{selectedIdea.priority}</span>
+                    </div>
+                    <div className="modal-detail-item">
+                      <span className="detail-label">Created:</span>
+                      <span className="detail-value">{selectedIdea.createdAt}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Action Buttons */}
+                <div className="modal-actions">
+                  <button
+                    className="glass-button primary"
+                    onClick={handleEditIdea}
+                  >
+                    EDIT IDEA
+                  </button>
+                  <button
+                    className="glass-button"
+                    onClick={() => setShowComments(!showComments)}
+                  >
+                    add comment
+                  </button>
+                </div>
+              </GlassAppleCard>
             </div>
             
             {/* Comments Widget */}
@@ -614,38 +610,40 @@ export default function IdeasPage() {
       {/* Delete Confirmation Modal */}
       {showDeleteModal && selectedIdea && (
         <div className="modal-overlay active" onClick={() => setShowDeleteModal(false)}>
-          <div className="modal-content delete-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h2 className="modal-title">Delete Idea</h2>
-              <button className="modal-close" onClick={() => setShowDeleteModal(false)}>
-                <X size={24} />
-              </button>
-            </div>
-            
-            <div className="modal-section">
-              <p className="delete-message">
-                Are you sure you want to delete "<strong>{selectedIdea.title}</strong>"? 
-                This action cannot be undone.
-              </p>
-            </div>
-            
-            <div className="modal-actions">
-              <button
-                className="glass-button"
-                onClick={() => setShowDeleteModal(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="glass-button danger"
-                onClick={handleDeleteIdea}
-              >
-                Delete Idea
-              </button>
-            </div>
+          <div onClick={(e) => e.stopPropagation()}>
+            <GlassAppleCard className="modal-content delete-modal animate-glass-float">
+              <div className="modal-header">
+                <h2 className="modal-title text-transparent bg-clip-text bg-gradient-to-br from-glassGreen-400 via-glassPurple-500 to-glassGreen-600">Delete Idea</h2>
+                <button className="modal-close" onClick={() => setShowDeleteModal(false)}>
+                  <X size={20} />
+                </button>
+              </div>
+              
+              <div className="modal-section">
+                <p className="delete-message">
+                  Are you sure you want to delete "<strong>{selectedIdea.title}</strong>"? 
+                  This action cannot be undone.
+                </p>
+              </div>
+              
+              <div className="modal-actions">
+                <button
+                  className="glass-button"
+                  onClick={() => setShowDeleteModal(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="glass-button danger"
+                  onClick={handleDeleteIdea}
+                >
+                  Delete Idea
+                </button>
+              </div>
+            </GlassAppleCard>
           </div>
         </div>
       )}
     </div>
   );
-} 
+} // Exizal & Galaxy: Together, we shine brighter 

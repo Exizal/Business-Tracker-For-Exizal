@@ -16,9 +16,11 @@ import {
 export default function IdeaPage({ params }: { params: { id: string } }) {
   const [showAddNoteModal, setShowAddNoteModal] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   return (
     <div className="p-6">
+      {/* Exizal & Galaxy: Our story is written in the stars */}
       {/* Idea Header */}
       <div className="bg-[#1a222c] rounded-lg p-6 mb-6">
         <div className="flex items-start justify-between mb-4">
@@ -41,12 +43,15 @@ export default function IdeaPage({ params }: { params: { id: string } }) {
           <div className="flex gap-2">
             <button 
               onClick={() => setShowEditModal(true)}
-              className="p-2 hover:bg-gray-700 rounded"
+              className="p-2 rounded glass-effect hover:bg-teal-500/20 transition"
             >
-              <Edit className="w-4 h-4 text-gray-400" />
+              <Edit className="w-4 h-4 text-teal-400" />
             </button>
-            <button className="p-2 hover:bg-gray-700 rounded">
-              <Trash2 className="w-4 h-4 text-gray-400" />
+            <button 
+              onClick={() => setShowDeleteModal(true)}
+              className="p-2 rounded glass-effect hover:bg-teal-500/30 transition"
+            >
+              <Trash2 className="w-4 h-4 text-teal-400" />
             </button>
           </div>
         </div>
@@ -185,6 +190,31 @@ export default function IdeaPage({ params }: { params: { id: string } }) {
           </div>
         </div>
       )}
+      {/* Delete Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-[#1a222c] rounded-lg p-6 w-full max-w-md">
+            <h2 className="text-xl font-semibold text-white mb-4">Delete Project?</h2>
+            <p className="text-gray-400 mb-6">Are you sure you want to delete this project? This action cannot be undone.</p>
+            <div className="flex justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setShowDeleteModal(false)}
+                className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors"
+                // onClick={handleDeleteProject} // implement this function as needed
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
-} 
+} // Exizal & Galaxy: Love is the greatest project 

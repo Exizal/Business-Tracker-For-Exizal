@@ -52,23 +52,20 @@ export function SocialAccountCard({
   }
 
   return (
-    <GlassCard className="relative overflow-hidden group">
+    <GlassCard className="relative overflow-hidden group glass-effect transition-transform duration-300 hover:scale-105 hover:shadow-glassStrong animate-glass-float">
       <div className={`absolute inset-0 bg-gradient-to-br ${getPlatformColor(platform)} opacity-10 group-hover:opacity-20 transition-opacity`} />
-      
       <div className="relative p-6">
         <div className="flex items-center space-x-4">
-          <div className={`p-3 rounded-full bg-gradient-to-br ${getPlatformColor(platform)}`}>
+          <div className={`p-3 rounded-full bg-gradient-to-br ${getPlatformColor(platform)} shadow-glassStrong animate-glass-bokeh`}>
             <Icon className="w-6 h-6 text-white" />
           </div>
-          
           <div className="flex-grow">
-            <h3 className="text-xl font-semibold text-white capitalize">
+            <h3 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-br from-glassGreen-400 via-glassPurple-500 to-glassGreen-600 capitalize animate-glass-bokeh">
               {platform}
             </h3>
             <p className="text-white/80">@{username}</p>
           </div>
         </div>
-
         <div className="mt-4 flex justify-between items-center">
           {profileUrl && (
             <a
@@ -80,18 +77,17 @@ export function SocialAccountCard({
               View Profile
             </a>
           )}
-          
           {isConnected ? (
             <button
               onClick={onDisconnect}
-              className="px-4 py-2 rounded-full bg-red-500/20 text-red-300 hover:bg-red-500/30 transition-colors"
+              className="glass-button px-4 py-2 rounded-full bg-red-500/20 text-red-300 hover:bg-red-500/30 transition-colors"
             >
               Disconnect
             </button>
           ) : (
             <button
               onClick={onConnect}
-              className="px-4 py-2 rounded-full bg-green-500/20 text-green-300 hover:bg-green-500/30 transition-colors"
+              className="glass-button px-4 py-2 rounded-full bg-green-500/20 text-green-300 hover:bg-green-500/30 transition-colors"
             >
               Connect
             </button>

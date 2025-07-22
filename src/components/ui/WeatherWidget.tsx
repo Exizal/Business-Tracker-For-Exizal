@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { Cloud, Sun, CloudRain, CloudSnow, Wind, Thermometer, MapPin, ChevronDown, ChevronUp, Search, Loader2, Navigation } from 'lucide-react'
+import { GlassCard } from '@/components/ui/glass-effect'
 
 interface WeatherData {
   location: string
@@ -151,7 +152,7 @@ export function WeatherWidget() {
 
   if (isLoading) {
     return (
-      <div className="weather-card">
+      <GlassCard className="weather-card glass-effect animate-glass-float">
         <div className="weather-header">
           <div className="weather-title">LIVE WEATHER</div>
         </div>
@@ -159,13 +160,13 @@ export function WeatherWidget() {
           <Loader2 className="w-6 h-6 animate-spin text-white/60" />
           <span>Loading weather...</span>
         </div>
-      </div>
+      </GlassCard>
     )
   }
 
   if (error || !weather) {
     return (
-      <div className="weather-card">
+      <GlassCard className="weather-card glass-effect animate-glass-float">
         <div className="weather-header">
           <div className="weather-title">LIVE WEATHER</div>
           <div className="weather-controls">
@@ -177,54 +178,48 @@ export function WeatherWidget() {
             </button>
           </div>
         </div>
-        
-              {showSearch && (
-        <div className="weather-search-section">
-          <form onSubmit={handleSearch} className="weather-search-form">
-            <input
-              type="text"
-              placeholder="Enter city name..."
-              value={searchCity}
-              onChange={(e) => setSearchCity(e.target.value)}
-              className="weather-search-input"
-            />
-            <button type="submit" className="weather-search-submit">
-              Search
-            </button>
-          </form>
-          
-          <div className="popular-cities">
-            <span className="popular-label">Popular:</span>
-            <div className="city-buttons">
-              {['London', 'New York', 'Tokyo', 'Paris', 'Sydney', 'Dubai'].map((city) => (
-                <button
-                  key={city}
-                  onClick={() => fetchWeatherData(city)}
-                  className="city-button"
-                >
-                  {city}
-                </button>
-              ))}
+        {showSearch && (
+          <div className="weather-search-section">
+            <form onSubmit={handleSearch} className="weather-search-form">
+              <input
+                type="text"
+                placeholder="Enter city name..."
+                value={searchCity}
+                onChange={(e) => setSearchCity(e.target.value)}
+                className="weather-search-input"
+              />
+              <button type="submit" className="weather-search-submit">
+                Search
+              </button>
+            </form>
+            <div className="popular-cities">
+              <span className="popular-label">Popular:</span>
+              <div className="city-buttons">
+                {['London', 'New York', 'Tokyo', 'Paris', 'Sydney', 'Dubai'].map((city) => (
+                  <button
+                    key={city}
+                    className="city-button"
+                    onClick={() => fetchWeatherData(city)}
+                  >
+                    {city}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      )}
-        
+        )}
         <div className="weather-error">
-          <span>{error || 'Weather data unavailable'}</span>
-          <button
-            onClick={getCurrentLocation}
-            className="weather-retry-button"
-          >
+          <span>{error || 'City not found or network error'}</span>
+          <button className="weather-retry-button" onClick={getCurrentLocation}>
             Retry
           </button>
         </div>
-      </div>
+      </GlassCard>
     )
   }
 
   return (
-    <div className="weather-card">
+    <GlassCard className="weather-card glass-effect animate-glass-float">
       <div className="weather-header">
         <div className="weather-title">LIVE WEATHER</div>
         <div className="weather-controls">
@@ -314,6 +309,6 @@ export function WeatherWidget() {
           </div>
         </div>
       )}
-    </div>
+    </GlassCard>
   )
 } 

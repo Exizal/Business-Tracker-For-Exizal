@@ -5,12 +5,13 @@ import { cn } from "@/lib/utils"
 import { VariantProps, cva } from "class-variance-authority"
 
 const glassVariants = cva(
-  "relative backdrop-blur-md rounded-lg border transition-all duration-300",
+  "relative glass-effect border transition-glass duration-300",
   {
     variants: {
       variant: {
-        default: "bg-white/10 border-white/20 hover:bg-white/20",
-        dark: "bg-black/10 border-black/20 hover:bg-black/20",
+        default: "bg-glass-gradient border-white/20 hover:bg-glass-gradient-2",
+        dark: "bg-glass-gradient border-black/20 hover:bg-glass-gradient-2",
+        gradient: "bg-glass-gradient border-glassPurple-400/30 hover:bg-glass-gradient-2",
       },
       size: {
         default: "p-6",
@@ -18,13 +19,13 @@ const glassVariants = cva(
         lg: "p-8",
       },
       elevation: {
-        default: "shadow-lg",
-        high: "shadow-xl",
+        default: "shadow-glass",
+        high: "shadow-glassStrong",
         none: "",
       }
     },
     defaultVariants: {
-      variant: "default",
+      variant: "gradient",
       size: "default",
       elevation: "default",
     }

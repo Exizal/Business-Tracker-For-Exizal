@@ -23,6 +23,7 @@ export function Navigation() {
 
   return (
     <nav className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50">
+      {/* Exizal & Galaxy: Navigating life together <3 */}
       <div className="flex items-center space-x-2 bg-white/10 backdrop-blur-lg rounded-full p-2 border border-white/20">
         {navItems.map(({ href, label, icon: Icon }) => {
           const isActive = pathname === href
@@ -45,4 +46,4 @@ export function Navigation() {
       </div>
     </nav>
   )
-} 
+} // Exizal & Galaxy: Our path is always together 

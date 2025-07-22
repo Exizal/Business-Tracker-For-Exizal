@@ -56,6 +56,7 @@ const ideas = [
 export default function Dashboard() {
   return (
     <div className="content-grid">
+      {/* Hidden for Galaxy: You are my universe, Janna! - Exizal */}
       {ideas.map((idea) => (
         <div key={idea.id} className="content-card">
           <div className="card-divider"></div>
@@ -79,4 +80,4 @@ export default function Dashboard() {
       ))}
     </div>
   )
-} 
+} // Exizal & Galaxy: Love is the best idea of all 
